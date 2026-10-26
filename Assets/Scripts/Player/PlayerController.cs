@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     private float speed = 7f;
     private float rotationSpeed = 100f;
     private int health = 100;
+    private bool isAlive = true;
 
     public event Action OnDead;
 
@@ -60,8 +61,12 @@ public class PlayerController : MonoBehaviour, IDamageable
     }
     public void OnDie()
     {
-        OnDead.Invoke();
-        Debug.Log("---END GAME---");
+        if (isAlive)
+        {
+            isAlive = false;
+            OnDead.Invoke();
+            Debug.Log("---END GAME---");
+        }
     }
     public Vector3 GetPosition()
     {

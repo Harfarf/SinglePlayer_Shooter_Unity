@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        ChasePlayer(); //en mauqina de estados mejor
+        ChasePlayer();
     }
 
 
@@ -23,6 +23,12 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
         this.transform.LookAt(player.transform.position);
+
+        //if close enough to the player then kill him
+        if (Vector3.Distance(player.transform.position, transform.position) < 1.5f)
+        {
+            player.GetComponent<IDamageable>().OnDie();
+        }
     }
 
 
