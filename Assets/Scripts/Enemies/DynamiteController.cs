@@ -6,6 +6,7 @@ using DG.Tweening;
 public class DynamiteController : MonoBehaviour
 {
 
+    [SerializeField] private ParticleSystem vfxPrefab;
     private int timeToExplode = 5;
     private int distanceToKill = 2;
     public event Action<GameObject> OnDisabled;
@@ -46,8 +47,16 @@ public class DynamiteController : MonoBehaviour
         dynamiteMaterial.DOColor(Color.red, 0.5f).SetLoops(6, LoopType.Yoyo).OnComplete(() =>
         {
             CheckDistanceToKill();
+            PlayVFX(transform.position);
             OnDisabled?.Invoke(gameObject);
             gameObject.SetActive(false);
         });
+    }
+    public void PlayVFX(Vector3 position)
+    {
+        ParticleSystem vfx = Instantiate(vfxPrefab, position, Quaternion.identity);
+        vfx.Play();
+
+        Destroy(vfx.gameObject, vfx.main.duration + vfx.main.startLifetime.constantMax);
     }
 }
