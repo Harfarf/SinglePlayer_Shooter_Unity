@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerController>().OnDead += ShowDieCanvas;
+        player.GetComponent<PlayerController>().OnDead += HandleGameOver;
     }
     private void OnEnable()
     {
@@ -25,10 +26,17 @@ public class UIController : MonoBehaviour
 
 
 
-    private void ShowDieCanvas()
+    private void HandleGameOver()
+    {
+        StartCoroutine(ShowDieCanvas());
+    }
+    private IEnumerator ShowDieCanvas()
     {
         dieCanvas.enabled = true;
-        Time.timeScale = 0f; //pause the game
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        Time.timeScale = 0f; // Pause the game
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
