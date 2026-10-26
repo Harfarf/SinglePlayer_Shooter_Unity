@@ -27,24 +27,12 @@ public class test : MonoBehaviour
 
 
 
-
-
-    //generar explosivos objectpool - en el area around th player - que exploten a los pocos segundos de apareecer y mata al player. raycast para ver si está en rango???? si no hay obstacles
-
-
     //saltar si estas pisando el suelo
     //guardad en json las kills for example
-    //Los personajes enemigos que irán aumentando su tamaño progresivamente, además del daño de sus disparos
+    //Los personajes enemigos que irán aumentando su tamaño progresivamente, además del daño de sus disparos ??????????
     //
     //scriptable objetcs for some enemy data
 
-    //navmesh and navmeshobstacles
 
-
-
-
-
-
-    //
 
 }
