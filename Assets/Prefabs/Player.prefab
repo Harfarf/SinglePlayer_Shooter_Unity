@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1116976227444854664}
   - component: {fileID: 3714368486523748128}
   - component: {fileID: 8211483457618598219}
-  - component: {fileID: 1852881375878521826}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -57,8 +56,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.44641042
+  m_Center: {x: 0, y: 0.14753377, z: 0}
 --- !u!54 &1116976227444854664
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -84,7 +83,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &3714368486523748128
 MonoBehaviour:
@@ -112,28 +111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   bulletPrefab: {fileID: 848477705199728926, guid: 6a9a6a98aa086d54190423f6612044e4, type: 3}
   bulletSpawnPos: {fileID: 7028857264958690997}
---- !u!195 &1852881375878521826
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2480428364257623668}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.63
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.86
-  m_BaseOffset: 0.34
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &5554694410609774009
 GameObject:
   m_ObjectHideFlags: 0

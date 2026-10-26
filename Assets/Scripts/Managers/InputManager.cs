@@ -9,8 +9,7 @@ public enum InputCommand
     LookX = 2,
     LookY = 3,
     Attack = 4,
-    Interact = 5,
-    Retry = 6,
+    Jump = 5,
 }
 
 public class InputManager : Singleton<InputManager>
@@ -20,8 +19,7 @@ public class InputManager : Singleton<InputManager>
     private InputAction movementInputAction;
     private InputAction lookInputAction;
     private InputAction attackInputAction;
-    private InputAction interactInputAction;
-    private InputAction retryInputAction;
+    private InputAction jumpInputAction;
 
 
 
@@ -35,8 +33,7 @@ public class InputManager : Singleton<InputManager>
         movementInputAction = playerInput.actions["Movement"];
         lookInputAction = playerInput.actions["Look"];
         attackInputAction = playerInput.actions["Attack"];
-        interactInputAction = playerInput.actions["Interact"];
-        retryInputAction = playerInput.actions["Retry"];
+        jumpInputAction = playerInput.actions["Jump"];
     }
 
     public bool GetInput(InputCommand inputCommand)
@@ -47,10 +44,8 @@ public class InputManager : Singleton<InputManager>
         {
             case InputCommand.Attack:
                 return attackInputAction.triggered;
-            case InputCommand.Interact:
-                return interactInputAction.triggered;
-            case InputCommand.Retry:
-                return retryInputAction.triggered;
+            case InputCommand.Jump:
+                return jumpInputAction.triggered;
             default:
                 return false;
         }
