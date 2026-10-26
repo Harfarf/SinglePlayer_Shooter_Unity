@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour, IDamageable
 {
     private GameObject player;
-    private int health = 100;
+    private int health = 20;
 
 
     private void OnEnable()

@@ -5,8 +5,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 {
 
     private Rigidbody rb;
-    private float speed = 10f;
-    private float rotationSpeed = 500f;
+    private float speed = 7f;
+    private float rotationSpeed = 100f;
     private int health = 100;
 
     public event Action OnDead;

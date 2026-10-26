@@ -8,11 +8,12 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        offset = transform.position - target.position;
+        offset = new Vector3(0, 2, -5);
     }
     private void LateUpdate() //is smoother if camera moves after the player
     {
-        transform.position = target.position + offset;
+        transform.position = target.position + target.rotation * offset;
+        transform.rotation = target.rotation;
     }
 
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class Bullet : MonoBehaviour
 {
-    private int lifeInSeconds = 5;
+    private int lifeInSeconds = 4;
     private GameObject bulletOwner;
 
 

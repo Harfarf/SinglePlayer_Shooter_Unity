@@ -10,7 +10,7 @@ public class PlayerAttack : MonoBehaviour
 
     private Queue <GameObject> bulletsQueue;
     private int maxBullets = 20;
-    private float bulletSpeed = 5f;
+    private float bulletSpeed = 9f;
 
 
     private void Start()
