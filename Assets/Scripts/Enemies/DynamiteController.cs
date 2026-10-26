@@ -1,19 +1,22 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class DynamiteController : MonoBehaviour
 {
 
     private GameObject player;
-    private int timeToExplode = 10;
+    private int timeToExplode = 5;
     private int distanceToKill = 2;
     public event Action<GameObject> OnDisabled;
+    private Material dynamiteMaterial;
 
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        dynamiteMaterial = GetComponent<Renderer>().material;
     }
     private void OnEnable()
     {
@@ -42,8 +45,11 @@ public class DynamiteController : MonoBehaviour
 
     private void Explode()
     {
-        CheckDistanceToKill();
-        OnDisabled?.Invoke(gameObject);
-        gameObject.SetActive(false);
+        dynamiteMaterial.DOColor(Color.red, 0.5f).SetLoops(6, LoopType.Yoyo).OnComplete(() =>
+        {
+            CheckDistanceToKill();
+            OnDisabled?.Invoke(gameObject);
+            gameObject.SetActive(false);
+        });
     }
 }
