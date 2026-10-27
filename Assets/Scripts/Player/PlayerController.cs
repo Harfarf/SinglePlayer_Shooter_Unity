@@ -16,6 +16,11 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public event Action OnDead;
 
+    public int PlayerKills { get; private set; } = 0;
+    public int PlayerDeaths { get; private set; } = 0;
+
+
+
 
     private void Start()
     {
@@ -29,7 +34,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 
 
-
+    #region Movement
     bool IsGrounded()
     {
         Ray groundCheckRay = new Ray(this.transform.position, Vector3.down);
@@ -57,10 +62,28 @@ public class PlayerController : MonoBehaviour, IDamageable
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
+    #endregion
+
+
+    public void RegisterKill()
+    {
+        PlayerKills++;
+        PlayerData data = DataManager.Instance.LoadData();
+        data.playerScore = PlayerKills;
+        DataManager.Instance.SaveData(data);
+    }
+
+    public void RegisterDeath()
+    {
+        PlayerDeaths++;
+        PlayerData data = DataManager.Instance.LoadData();
+        data.playerDeaths = PlayerDeaths;
+        DataManager.Instance.SaveData(data);
+    }
 
 
     #region IDamageable
-    public void SetDamage(int damageAmount)
+    public void SetDamage(int damageAmount, GameObject attacker)
     {
         health -= damageAmount;
         if (health <= 0) OnDie();
@@ -79,6 +102,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (isAlive)
         {
+            RegisterDeath();
             isAlive = false;
             OnDead.Invoke();
             Debug.Log("---END GAME---");

@@ -41,9 +41,13 @@ public class EnemyController : MonoBehaviour, IDamageable
 
 
     #region IDamageable
-    public void SetDamage(int damageAmount)
+    public void SetDamage(int damageAmount, GameObject attacker)
     {
         health -= damageAmount;
+        if (attacker && attacker.GetComponent<PlayerController>())
+        {
+            attacker.GetComponent<PlayerController>().RegisterKill();
+        }
         if (health <= 0) OnDie();
     }
 

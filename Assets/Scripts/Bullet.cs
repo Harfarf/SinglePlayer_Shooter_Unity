@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         else if (other.GetComponent<IDamageable>() != null) //player & enemy
         {
             IDamageable damageable = other.GetComponent<IDamageable>();
-            damageable.SetDamage(10);
+            damageable.SetDamage(10, bulletOwner);
             this.gameObject.SetActive(false);
         }
 

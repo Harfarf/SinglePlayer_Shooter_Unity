@@ -29,7 +29,6 @@ public class test : MonoBehaviour
 
     //saltar si estas pisando el suelo
     //guardad en json las kills for example
-    //Los personajes enemigos que irán aumentando su tamaño progresivamente, además del daño de sus disparos ??????????
     //
     //scriptable objetcs for some enemy data
 

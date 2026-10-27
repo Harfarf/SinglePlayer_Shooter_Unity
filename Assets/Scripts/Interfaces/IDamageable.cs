@@ -4,7 +4,7 @@ public interface IDamageable
 {
     bool IsAlive();
     int GetHealth();
-    void SetDamage(int damage);
+    void SetDamage(int damage, GameObject attacker);
     void OnDie();
 
 
