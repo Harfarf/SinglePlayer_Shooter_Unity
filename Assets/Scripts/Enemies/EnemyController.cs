@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,12 +7,18 @@ public class EnemyController : MonoBehaviour, IDamageable
     private GameObject player;
     private int health = 20;
 
+    [SerializeField] private GameObject vfxPrefab;
+    private Queue<GameObject> vfxQueue;
 
+
+    void Start()
+    {
+        vfxQueue = ObjectPool.Instance.CreatePool(vfxPrefab, 2, null);
+    }
     private void OnEnable()
     {
         player = GameObject.FindGameObjectWithTag("Player");
     }
-
     private void Update()
     {
         ChasePlayer();
@@ -22,7 +29,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void ChasePlayer()
     {
         GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
-        this.transform.LookAt(player.transform.position);
+        transform.LookAt(player.transform.position);
 
         //if close enough to the player then kill him
         if (Vector3.Distance(player.transform.position, transform.position) < 1.5f)
@@ -30,6 +37,7 @@ public class EnemyController : MonoBehaviour, IDamageable
             player.GetComponent<IDamageable>().OnDie();
         }
     }
+
 
 
     #region IDamageable
@@ -50,7 +58,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     public void OnDie()
     {
-        this.gameObject.SetActive(false);
+        ObjectPool.Instance.PlayVFXFromPool(vfxQueue, transform.position);
+        gameObject.SetActive(false);
     }
     public Vector3 GetPosition()
     {

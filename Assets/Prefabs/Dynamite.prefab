@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4d2da9802002942871dae7d6dbccce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DynamiteController
-  vfxPrefab: {fileID: 1930954644783432817, guid: cdf6a5bda2123f04387fb01745ef82fe, type: 3}
+  vfxPrefab: {fileID: 3823535522429381174, guid: cdf6a5bda2123f04387fb01745ef82fe, type: 3}
 --- !u!1 &7636150115239543920
 GameObject:
   m_ObjectHideFlags: 0

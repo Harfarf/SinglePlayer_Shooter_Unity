@@ -1,21 +1,26 @@
+using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using DG.Tweening;
 
 public class DynamiteController : MonoBehaviour
 {
 
-    [SerializeField] private ParticleSystem vfxPrefab;
     private int timeToExplode = 5;
     private int distanceToKill = 2;
-    public event Action<GameObject> OnDisabled;
     private Material dynamiteMaterial;
+
+    [SerializeField] private GameObject vfxPrefab;
+    private Queue<GameObject> vfxQueue;
+
+    public event Action<GameObject> OnDisabled;
 
 
     private void Start()
     {
         dynamiteMaterial = GetComponent<Renderer>().material;
+        vfxQueue = ObjectPool.Instance.CreatePool(vfxPrefab, 2, null);
     }
     private void OnEnable()
     {
@@ -47,16 +52,10 @@ public class DynamiteController : MonoBehaviour
         dynamiteMaterial.DOColor(Color.red, 0.5f).SetLoops(6, LoopType.Yoyo).OnComplete(() =>
         {
             CheckDistanceToKill();
-            PlayVFX(transform.position);
+            ObjectPool.Instance.PlayVFXFromPool(vfxQueue, transform.position);
             OnDisabled?.Invoke(gameObject);
             gameObject.SetActive(false);
         });
     }
-    public void PlayVFX(Vector3 position)
-    {
-        ParticleSystem vfx = Instantiate(vfxPrefab, position, Quaternion.identity);
-        vfx.Play();
 
-        Destroy(vfx.gameObject, vfx.main.duration + vfx.main.startLifetime.constantMax);
-    }
 }

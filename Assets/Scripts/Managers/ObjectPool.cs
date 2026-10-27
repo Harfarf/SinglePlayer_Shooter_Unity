@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,5 +19,30 @@ public class ObjectPool : Singleton<ObjectPool>
         }
 
         return newQueue;
+    }
+
+
+    public void PlayVFXFromPool(Queue<GameObject> vfxQueue, Vector3 position)
+    {
+        StartCoroutine(PlayVFXFromPoolCoroutine(vfxQueue, position));
+    }
+    private IEnumerator PlayVFXFromPoolCoroutine(Queue<GameObject> vfxQueue, Vector3 position)
+    {
+        //reset vfx
+        GameObject vfx = vfxQueue.Dequeue();
+        vfx.transform.localPosition = position;
+        vfx.SetActive(true);
+
+        //play vfx
+        var particles = vfx.GetComponent<ParticleSystem>();
+        particles.Play();
+
+        yield return new WaitForSeconds(particles.main.duration + particles.main.startLifetime.constantMax);
+
+        //enqueue again
+        vfx.SetActive(false);
+        vfxQueue.Enqueue(vfx);
+
+        yield return null;
     }
 }

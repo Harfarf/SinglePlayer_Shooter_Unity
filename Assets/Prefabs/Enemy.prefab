@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de59c0dbfd99f8b4991e5ae0b235f36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  vfxPrefab: {fileID: 6408456892440826031, guid: 40377827e353f90409b1640f029c166c, type: 3}
 --- !u!195 &6964424270755122657
 NavMeshAgent:
   m_ObjectHideFlags: 0
