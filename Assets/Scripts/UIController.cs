@@ -42,11 +42,11 @@ public class UIController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        Time.timeScale = 0f; // Pause the game
+        Time.timeScale = 0f; //pause the game
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; //un-pause the game
     }
     #endregion
 

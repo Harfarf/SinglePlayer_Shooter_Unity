@@ -5,6 +5,8 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour, IDamageable
 {
     private GameObject player;
+    private NavMeshAgent Nagent;
+
     private int health;
     [SerializeField] private Renderer renderMesh;
 
@@ -22,6 +24,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     void Start()
     {
         vfxQueue = ObjectPool.Instance.CreatePool(vfxPrefab, 2, null);
+        Nagent = GetComponent<NavMeshAgent>();
     }
     private void OnEnable()
     {
@@ -49,10 +52,15 @@ public class EnemyController : MonoBehaviour, IDamageable
         switch (state)
         {
             case EnemyState.Patrol:
-                GetComponent<NavMeshAgent>().SetDestination(transform.position);
+                if (!Nagent.pathPending && (!Nagent.hasPath || Nagent.remainingDistance <= 0.5f))
+                {
+                    Vector3 patrolPos = SceneHandler.Instance.GetRandomPointInNavMesh(transform, 5, 10);
+                    Nagent.SetDestination(patrolPos);
+                    transform.LookAt(patrolPos);
+                }
                 break;
             case EnemyState.Chase:
-                GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
+                Nagent.SetDestination(player.transform.position);
                 transform.LookAt(player.transform.position);
             break;
         }
