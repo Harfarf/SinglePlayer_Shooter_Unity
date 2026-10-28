@@ -169,8 +169,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ebbaaad0-b1c0-4c2a-aa96-00d4db7245f1",
-                    "path": "<Mouse>/position",
+                    "id": "774b1a8d-f27b-4da6-a193-cc22b92fb793",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -26,6 +26,6 @@ public class test : MonoBehaviour
 
 
     //saltar si estas pisando el suelo
-
+    //uso de delegacion??
 
 }

@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour, IDamageable
                     Nagent.SetDestination(patrolPos);
                     transform.LookAt(patrolPos);
                 }
-                break;
+            break;
             case EnemyState.Chase:
                 Nagent.SetDestination(player.transform.position);
                 transform.LookAt(player.transform.position);
