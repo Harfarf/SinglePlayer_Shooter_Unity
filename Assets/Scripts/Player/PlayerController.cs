@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         //Load Data
         PlayerData data = DataManager.Instance.LoadData();
-        Debug.Log(data + " ---- " + data.playerScore + " ---- " + data.playerDeaths);
         PlayerKills = data.playerScore;
         PlayerDeaths = data.playerDeaths;
         OnKillsUpdated.Invoke(PlayerKills);

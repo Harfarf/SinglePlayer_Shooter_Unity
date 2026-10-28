@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.Rendering.STP;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -44,14 +43,14 @@ public class EnemySpawner : MonoBehaviour
     }
     private Vector3 GetEnemyRandomSpawnPos(int rangeX, int rangeY)
     {
-        float xPos = Random.Range(player.position.x + rangeX, player.position.x + rangeY) * (Random.value < 0.5f ? 1 : -1);
-        float zPos = Random.Range(player.position.z + rangeX, player.position.z + rangeY) * (Random.value < 0.5f ? 1 : -1);
-        Vector3 randomPos = new Vector3(xPos, 0, zPos);
+        Vector2 offset = Random.insideUnitCircle.normalized * Random.Range(rangeX, rangeY); //get a random direction and distance within the spawn ring
+        Vector3 randomPos = player.position + new Vector3(offset.x, 0f, offset.y); //convert the offset into a world position around the player
 
-        if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 10, NavMesh.AllAreas)) //make sure it spwans inside the navmesh
+        //find the nearest NavMesh point within 2 units
+        if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             return hit.position;
 
-        return randomPos;
+        return player.position + new Vector3(1f, 0f, 1f); //fallback
     }
 
 
