@@ -13,6 +13,11 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] private GameObject vfxPrefab;
     private Queue<GameObject> vfxQueue;
 
+    private float chaseDistance = 10f;
+    private float killDistance = 0.5f;
+
+    private enum EnemyState { Patrol, Chase }
+
 
     void Start()
     {
@@ -38,11 +43,22 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     private void ChasePlayer()
     {
-        GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
-        transform.LookAt(player.transform.position);
+        //state machine
+        float distanceWithPlayer = Vector3.Distance(player.transform.position, transform.position);
+        EnemyState state = distanceWithPlayer < chaseDistance ? EnemyState.Chase : EnemyState.Patrol;
+        switch (state)
+        {
+            case EnemyState.Patrol:
+                GetComponent<NavMeshAgent>().SetDestination(transform.position);
+                break;
+            case EnemyState.Chase:
+                GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
+                transform.LookAt(player.transform.position);
+            break;
+        }
 
         //if close enough to the player then kill him
-        if (Vector3.Distance(player.transform.position, transform.position) < 1.5f)
+        if (distanceWithPlayer < killDistance)
         {
             player.GetComponent<IDamageable>().OnDie();
         }

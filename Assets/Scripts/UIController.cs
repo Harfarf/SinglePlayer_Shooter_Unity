@@ -40,7 +40,7 @@ public class UIController : MonoBehaviour
     {
         dieCanvas.enabled = true;
 
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         Time.timeScale = 0f; // Pause the game
     }
