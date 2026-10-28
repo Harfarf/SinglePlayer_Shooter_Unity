@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private Rigidbody rb;
     private float speed = 7f;
-    private float rotationSpeed = 100f;
     private float jumpForce = 7f;
     private int health = 100;
     private bool isAlive = true;
@@ -56,14 +55,8 @@ public class PlayerController : MonoBehaviour, IDamageable
             + InputManager.Instance.GetAxis(InputCommand.MovementY) * Camera.main.transform.forward;
         rb.linearVelocity = movementDirection * speed; //units per second - consistent between devices
 
-        //rotation
-        if (rb.linearVelocity != Vector3.zero)
-        {
-            Quaternion rotation = Quaternion.LookRotation(rb.linearVelocity, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime); //rotation speed consistent across frame rates
-            rb.angularVelocity = Vector3.zero;
-        }
-        else rb.angularVelocity = Vector3.zero;
+        //rotation (following the camera)
+        transform.rotation = Quaternion.Euler(0f, Camera.main.GetComponent<CameraController>().rotationX, 0f);
 
         //jump
         if (InputManager.Instance.GetInput(InputCommand.Jump) && IsGrounded())

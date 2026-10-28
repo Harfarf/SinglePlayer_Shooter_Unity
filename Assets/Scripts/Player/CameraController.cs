@@ -4,8 +4,8 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private Transform target;
     private Vector3 offset;
-    private float rotationX, rotationY;
-    private float turnSpeedX = 15f, turnSpeedY = 3f;
+    public float rotationX, rotationY;
+    private float turnSpeedX = 100f, turnSpeedY = 0f;
 
 
     private void Start()
