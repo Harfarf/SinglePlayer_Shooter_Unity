@@ -28,8 +28,6 @@ public class test : MonoBehaviour
 
 
     //saltar si estas pisando el suelo
-    //guardad en json las kills for example
-    //
     //scriptable objetcs for some enemy data
 
 

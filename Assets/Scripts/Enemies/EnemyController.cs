@@ -5,7 +5,10 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour, IDamageable
 {
     private GameObject player;
-    private int health = 20;
+    private int health;
+    [SerializeField] private Renderer renderMesh;
+
+    [SerializeField] private List<Enemy_SO> enemyTypes = new List<Enemy_SO>();
 
     [SerializeField] private GameObject vfxPrefab;
     private Queue<GameObject> vfxQueue;
@@ -26,6 +29,13 @@ public class EnemyController : MonoBehaviour, IDamageable
 
 
 
+    public void Initialize()
+    {
+        Enemy_SO enemyDescription = enemyTypes[Random.Range(0, enemyTypes.Count)]; //random config per enemy
+        renderMesh.material.color = enemyDescription.enemyColor;
+        renderMesh.material.SetColor("_EmissionColor", enemyDescription.enemyColor);
+        health = enemyDescription.maxHealth;
+    }
     private void ChasePlayer()
     {
         GetComponent<NavMeshAgent>().SetDestination(player.transform.position);

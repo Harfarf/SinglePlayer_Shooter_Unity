@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf07b0e88d077e948bb2cff2f638bd20, type: 3}
   m_Name: Enemy1
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_SO
-  enemyColor: {r: 0, g: 1, b: 0.05064392, a: 1}
-  maxHealth: 110
+  enemyColor: {r: 0.4433962, g: 0.78172404, b: 1, a: 1}
+  maxHealth: 20

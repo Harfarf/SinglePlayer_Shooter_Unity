@@ -36,8 +36,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void InitEnemies()
     {
-        enemiesQueue = ObjectPool.Instance.CreatePool(enemyPrefab, 8, null);
         dynamiteQueue = ObjectPool.Instance.CreatePool(dynamitePrefab, 5, null);
+        enemiesQueue = ObjectPool.Instance.CreatePool(enemyPrefab, 8, (newEnemy) =>
+        {
+            newEnemy.GetComponent<EnemyController>().Initialize();
+        });
     }
     private Vector3 GetEnemyRandomSpawnPos(int rangeX, int rangeY)
     {
