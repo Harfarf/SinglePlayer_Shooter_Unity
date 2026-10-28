@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     private LayerMask floorLayer;
 
     public event Action OnDead;
+    public event Action<int> OnKillsUpdated;
+    public event Action<int> OnDeathsUpdated;
 
     public int PlayerKills { get; private set; } = 0;
     public int PlayerDeaths { get; private set; } = 0;
@@ -26,6 +28,14 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         rb = GetComponent<Rigidbody>();
         floorLayer = LayerMask.GetMask("Floor");
+
+        //Load Data
+        PlayerData data = DataManager.Instance.LoadData();
+        Debug.Log(data + " ---- " + data.playerScore + " ---- " + data.playerDeaths);
+        PlayerKills = data.playerScore;
+        PlayerDeaths = data.playerDeaths;
+        OnKillsUpdated.Invoke(PlayerKills);
+        OnDeathsUpdated.Invoke(PlayerDeaths);
     }
     private void Update()
     {
@@ -71,6 +81,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         PlayerData data = DataManager.Instance.LoadData();
         data.playerScore = PlayerKills;
         DataManager.Instance.SaveData(data);
+        OnKillsUpdated.Invoke(PlayerKills);
     }
 
     public void RegisterDeath()
@@ -79,6 +90,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         PlayerData data = DataManager.Instance.LoadData();
         data.playerDeaths = PlayerDeaths;
         DataManager.Instance.SaveData(data);
+        OnDeathsUpdated.Invoke(PlayerDeaths);
     }
 
 

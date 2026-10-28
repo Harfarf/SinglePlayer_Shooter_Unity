@@ -1,10 +1,14 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private Canvas dieCanvas;
+    [SerializeField] private TextMeshProUGUI killsText;
+    [SerializeField] private TextMeshProUGUI deathsText;
+
     private GameObject player;
 
 
@@ -12,6 +16,8 @@ public class UIController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<PlayerController>().OnDead += HandleGameOver;
+        player.GetComponent<PlayerController>().OnDeathsUpdated += UpdateDeathsUI;
+        player.GetComponent<PlayerController>().OnKillsUpdated += UpdateKillsUI;
     }
     private void OnEnable()
     {
@@ -25,7 +31,7 @@ public class UIController : MonoBehaviour
 
 
 
-
+    #region GameOver UI
     private void HandleGameOver()
     {
         StartCoroutine(ShowDieCanvas());
@@ -42,4 +48,16 @@ public class UIController : MonoBehaviour
     {
         Time.timeScale = 1f;
     }
+    #endregion
+
+    #region Gameplay UI
+    private void UpdateKillsUI(int amount)
+    {
+        killsText.text = amount.ToString();
+    }
+    private void UpdateDeathsUI(int amount)
+    {
+        deathsText.text = amount.ToString();
+    }
+    #endregion
 }

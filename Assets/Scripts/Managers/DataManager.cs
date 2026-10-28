@@ -23,7 +23,7 @@ public class DataManager : Singleton<DataManager>
         string json = JsonUtility.ToJson(dataToSave, true);
         File.WriteAllText(SavePath, json);
 
-        Debug.Log("<color=blue>Game Saved </color>" + " --> Check Json to visualice saved data " + SavePath);
+        Debug.Log("<color=green>Game Saved </color>" + " --> Check Json to visualice saved data " + SavePath);
     }
 
     public PlayerData LoadData()
