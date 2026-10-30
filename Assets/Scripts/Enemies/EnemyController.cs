@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     void Start()
     {
-        vfxQueue = ObjectPool.Instance.CreatePool(vfxPrefab, 2, null);
+        vfxQueue = ObjectPool.Instance.CreatePool(vfxPrefab, 2, null, null);
         Nagent = GetComponent<NavMeshAgent>();
     }
     private void OnEnable()

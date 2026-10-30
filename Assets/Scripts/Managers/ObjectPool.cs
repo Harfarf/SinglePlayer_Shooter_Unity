@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ObjectPool : Singleton<ObjectPool>
 {
-    public Queue<GameObject> CreatePool( GameObject prefab, int poolSize, Action<GameObject> onCreate)
+    public Queue<GameObject> CreatePool( GameObject prefab, int poolSize, Action<GameObject> onCreate, Action<GameObject> onDisabled)
     {
         Queue<GameObject> newQueue = new Queue<GameObject>();
 
@@ -15,6 +15,7 @@ public class ObjectPool : Singleton<ObjectPool>
             obj.SetActive(false);
             onCreate?.Invoke(obj);
             newQueue.Enqueue(obj);
+            onDisabled?.Invoke(obj);
         }
 
         return newQueue;

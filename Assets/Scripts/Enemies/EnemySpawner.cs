@@ -36,11 +36,30 @@ public class EnemySpawner : MonoBehaviour
 
     private void InitEnemies()
     {
-        dynamiteQueue = ObjectPool.Instance.CreatePool(dynamitePrefab, 5, null);
-        enemiesQueue = ObjectPool.Instance.CreatePool(enemyPrefab, 8, (newEnemy) =>
-        {
-            newEnemy.GetComponent<EnemyController>().Initialize();
-        });
+        dynamiteQueue = ObjectPool.Instance.CreatePool(dynamitePrefab, 5, 
+            null, //OnCreated
+            (newDynamite) => //OnDisabled
+            {
+                newDynamite.GetComponent<DynamiteController>().OnDisabled += () =>
+                {
+                    dynamiteQueue.Enqueue(newDynamite);
+                };
+            }
+        );
+        enemiesQueue = ObjectPool.Instance.CreatePool(enemyPrefab, 8, 
+            (newEnemy) => //OnCreated
+            {
+                newEnemy.GetComponent<EnemyController>().Initialize();
+            },
+            (newEnemy) => //OnDisabled
+            {
+                newEnemy.GetComponent<EnemyController>().OnDead += () =>
+                {
+                    enemiesQueue.Enqueue(newEnemy);
+                    SpawnEnemyFromQueue();
+                };
+            }
+        );
     }
 
 
@@ -53,13 +72,6 @@ public class EnemySpawner : MonoBehaviour
         enemy.transform.localPosition = SceneHandler.Instance.GetRandomPointInNavMesh(player, 4, 15);
         enemy.transform.localRotation = Quaternion.identity;
         enemy.SetActive(true);
-
-        //track enemy death
-        enemy.GetComponent<EnemyController>().OnDead += () =>
-        {
-            enemiesQueue.Enqueue(enemy);
-            SpawnEnemyFromQueue();
-        };
         
     }
 
@@ -72,11 +84,6 @@ public class EnemySpawner : MonoBehaviour
         tnt.transform.localPosition = SceneHandler.Instance.GetRandomPointInNavMesh(player, 2, 5);
         tnt.SetActive(true);
 
-        //listen to gameobject disbaled to enqueue again
-        tnt.GetComponent<DynamiteController>().OnDisabled += () =>
-        {
-            dynamiteQueue.Enqueue(tnt);
-        }; //TODO:? unsubscribe???????????????????????????????????????''
     }
 
 }

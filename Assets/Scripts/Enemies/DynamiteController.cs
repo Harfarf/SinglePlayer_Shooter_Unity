@@ -20,7 +20,7 @@ public class DynamiteController : MonoBehaviour
     private void Start()
     {
         dynamiteMaterial = GetComponent<Renderer>().material;
-        vfxQueue = ObjectPool.Instance.CreatePool(vfxPrefab, 2, null);
+        vfxQueue = ObjectPool.Instance.CreatePool(vfxPrefab, 2, null, null);
     }
     private void OnEnable()
     {

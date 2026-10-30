@@ -27,10 +27,13 @@ public class PlayerAttack : MonoBehaviour
 
     private void InitBullets()
     {
-        bulletsQueue = ObjectPool.Instance.CreatePool(bulletPrefab, maxBullets, (newBullet) =>
-        {
-            newBullet.GetComponent<Bullet>().Initialize(gameObject);
-        });
+        bulletsQueue = ObjectPool.Instance.CreatePool(bulletPrefab, maxBullets,
+            (newBullet) => //OnCreated
+            {
+                newBullet.GetComponent<Bullet>().Initialize(gameObject);
+            },
+            null //OnDisabled
+        );
     }
 
     private void BulletAttack()
