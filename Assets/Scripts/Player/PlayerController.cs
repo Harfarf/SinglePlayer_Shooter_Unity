@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     public event Action<int> OnKillsUpdated;
     public event Action<int> OnDeathsUpdated;
 
-    public int PlayerKills { get; private set; } = 0;
-    public int PlayerDeaths { get; private set; } = 0;
+    public int playerKills { get; private set; } = 0;
+    public int playerDeaths { get; private set; } = 0;
 
 
 
@@ -30,10 +30,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         //Load Data
         PlayerData data = DataManager.Instance.LoadData();
-        PlayerKills = data.playerScore;
-        PlayerDeaths = data.playerDeaths;
-        OnKillsUpdated.Invoke(PlayerKills);
-        OnDeathsUpdated.Invoke(PlayerDeaths);
+        playerKills = data.playerScore;
+        playerDeaths = data.playerDeaths;
+        OnKillsUpdated.Invoke(playerKills);
+        OnDeathsUpdated.Invoke(playerDeaths);
     }
     private void Update()
     {
@@ -69,20 +69,20 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void RegisterKill()
     {
-        PlayerKills++;
+        playerKills++;
         PlayerData data = DataManager.Instance.LoadData();
-        data.playerScore = PlayerKills;
+        data.playerScore = playerKills;
         DataManager.Instance.SaveData(data);
-        OnKillsUpdated.Invoke(PlayerKills);
+        OnKillsUpdated.Invoke(playerKills);
     }
 
     public void RegisterDeath()
     {
-        PlayerDeaths++;
+        playerDeaths++;
         PlayerData data = DataManager.Instance.LoadData();
-        data.playerDeaths = PlayerDeaths;
+        data.playerDeaths = playerDeaths;
         DataManager.Instance.SaveData(data);
-        OnDeathsUpdated.Invoke(PlayerDeaths);
+        OnDeathsUpdated.Invoke(playerDeaths);
     }
 
 

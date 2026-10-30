@@ -4,10 +4,10 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
+    private enum EnemyState { Patrol, Chase }
+
     private GameObject player;
     private NavMeshAgent Nagent;
-
-    private int health;
     [SerializeField] private Renderer renderMesh;
 
     [SerializeField] private List<Enemy_SO> enemyTypes = new List<Enemy_SO>();
@@ -15,10 +15,13 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] private GameObject vfxPrefab;
     private Queue<GameObject> vfxQueue;
 
+    private int health;
     private float chaseDistance = 10f;
     private float killDistance = 0.5f;
 
-    private enum EnemyState { Patrol, Chase }
+   // public event Action OnDead;
+
+
 
 
     void Start()
@@ -32,7 +35,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     private void Update()
     {
-        ChasePlayer();
+        StateMachine();
     }
 
 
@@ -44,7 +47,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         renderMesh.material.SetColor("_EmissionColor", enemyDescription.enemyColor);
         health = enemyDescription.maxHealth;
     }
-    private void ChasePlayer()
+    private void StateMachine()
     {
         //state machine
         float distanceWithPlayer = Vector3.Distance(player.transform.position, transform.position);
@@ -100,6 +103,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void OnDie()
     {
         ObjectPool.Instance.PlayVFXFromPool(vfxQueue, transform.position);
+        //OnDead.Invoke();
         gameObject.SetActive(false);
     }
     public Vector3 GetPosition()

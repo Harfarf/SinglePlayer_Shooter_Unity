@@ -12,20 +12,26 @@ public class UIController : MonoBehaviour
     private GameObject player;
 
 
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerController>().OnDead += HandleGameOver;
-        player.GetComponent<PlayerController>().OnDeathsUpdated += UpdateDeathsUI;
-        player.GetComponent<PlayerController>().OnKillsUpdated += UpdateKillsUI;
-    }
     private void OnEnable()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        PlayerController playerController = player.GetComponent<PlayerController>();
+
+        playerController.OnDead += HandleGameOver;
+        playerController.OnDeathsUpdated += UpdateDeathsUI;
+        playerController.OnKillsUpdated += UpdateKillsUI;
+
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
+        PlayerController playerController = player.GetComponent<PlayerController>();
+
+        playerController.OnDead -= HandleGameOver;
+        playerController.OnDeathsUpdated -= UpdateDeathsUI;
+        playerController.OnKillsUpdated -= UpdateKillsUI;
+
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 

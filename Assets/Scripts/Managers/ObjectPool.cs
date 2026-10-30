@@ -9,7 +9,6 @@ public class ObjectPool : Singleton<ObjectPool>
     {
         Queue<GameObject> newQueue = new Queue<GameObject>();
 
-
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = Instantiate(prefab);
