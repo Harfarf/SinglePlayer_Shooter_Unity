@@ -26,12 +26,6 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerController playerController = player.GetComponent<PlayerController>();
-
-        playerController.OnDead -= HandleGameOver;
-        playerController.OnDeathsUpdated -= UpdateDeathsUI;
-        playerController.OnKillsUpdated -= UpdateKillsUI;
-
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
