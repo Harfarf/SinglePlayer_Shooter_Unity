@@ -14,7 +14,7 @@ public class DynamiteController : MonoBehaviour
     [SerializeField] private GameObject vfxPrefab;
     private Queue<GameObject> vfxQueue;
 
-    public event Action<GameObject> OnDisabled;
+    public event Action OnDisabled;
 
 
     private void Start()
@@ -53,7 +53,7 @@ public class DynamiteController : MonoBehaviour
         {
             CheckDistanceToKill();
             ObjectPool.Instance.PlayVFXFromPool(vfxQueue, transform.position);
-            OnDisabled?.Invoke(gameObject);
+            OnDisabled?.Invoke();
             gameObject.SetActive(false);
         });
     }

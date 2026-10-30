@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,7 +20,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     private float chaseDistance = 10f;
     private float killDistance = 0.5f;
 
-   // public event Action OnDead;
+    public event Action OnDead;
 
 
 
@@ -42,7 +43,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void Initialize()
     {
-        Enemy_SO enemyDescription = enemyTypes[Random.Range(0, enemyTypes.Count)]; //random config per enemy
+        Enemy_SO enemyDescription = enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count)]; //random config per enemy
         renderMesh.material.color = enemyDescription.enemyColor;
         renderMesh.material.SetColor("_EmissionColor", enemyDescription.enemyColor);
         health = enemyDescription.maxHealth;
@@ -103,7 +104,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void OnDie()
     {
         ObjectPool.Instance.PlayVFXFromPool(vfxQueue, transform.position);
-        //OnDead.Invoke();
+        OnDead.Invoke();
         gameObject.SetActive(false);
     }
     public Vector3 GetPosition()

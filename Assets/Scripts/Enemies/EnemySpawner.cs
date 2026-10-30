@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
         //Spawn enemies
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            StartCoroutine(SpawnEnemyFromQueue());
+            SpawnEnemyFromQueue();
         }
         //Spawn dynamites
         InvokeRepeating(nameof(SpawnDynamite), 2f, 3f);
@@ -43,9 +43,10 @@ public class EnemySpawner : MonoBehaviour
         });
     }
 
-    private IEnumerator SpawnEnemyFromQueue()
+
+    private void SpawnEnemyFromQueue()
     {
-        if (enemiesQueue.Count == 0) yield break;
+        if (enemiesQueue.Count == 0) return;
 
         //reset enemy
         GameObject enemy = enemiesQueue.Dequeue();
@@ -53,14 +54,15 @@ public class EnemySpawner : MonoBehaviour
         enemy.transform.localRotation = Quaternion.identity;
         enemy.SetActive(true);
 
-        //track enemy
-        while (enemy.activeSelf)
+        //track enemy death
+        enemy.GetComponent<EnemyController>().OnDead += () =>
         {
-            yield return null;
-        }
-        enemiesQueue.Enqueue(enemy);
-        StartCoroutine(SpawnEnemyFromQueue());
+            enemiesQueue.Enqueue(enemy);
+            SpawnEnemyFromQueue();
+        };
+        
     }
+
     private void SpawnDynamite()
     {
         if (dynamiteQueue.Count == 0) return;
@@ -71,10 +73,10 @@ public class EnemySpawner : MonoBehaviour
         tnt.SetActive(true);
 
         //listen to gameobject disbaled to enqueue again
-        tnt.GetComponent<DynamiteController>().OnDisabled += (obj) =>
+        tnt.GetComponent<DynamiteController>().OnDisabled += () =>
         {
-            dynamiteQueue.Enqueue(obj);
-        };
+            dynamiteQueue.Enqueue(tnt);
+        }; //TODO:? unsubscribe???????????????????????????????????????''
     }
 
 }
