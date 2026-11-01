@@ -53,11 +53,11 @@ public class UIController : MonoBehaviour
     #region Gameplay UI
     private void UpdateKillsUI(int amount)
     {
-        killsText.text = amount.ToString();
+        killsText.text = "Kills: " + amount.ToString();
     }
     private void UpdateDeathsUI(int amount)
     {
-        deathsText.text = amount.ToString();
+        deathsText.text = "Deaths: " + amount.ToString();
     }
     #endregion
 }
