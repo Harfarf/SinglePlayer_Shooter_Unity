@@ -69,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
 
         //reset enemy
         GameObject enemy = enemiesQueue.Dequeue();
-        enemy.transform.localPosition = SceneHandler.Instance.GetRandomPointInNavMesh(player, 4, 15);
+        enemy.transform.localPosition = GeneralFunctions.Instance.GetRandomPointInNavMesh(player, 4, 15);
         enemy.transform.localRotation = Quaternion.identity;
         enemy.SetActive(true);
         
@@ -81,7 +81,7 @@ public class EnemySpawner : MonoBehaviour
 
         //spawn dynamite
         GameObject tnt = dynamiteQueue.Dequeue();
-        tnt.transform.localPosition = SceneHandler.Instance.GetRandomPointInNavMesh(player, 2, 5);
+        tnt.transform.localPosition = GeneralFunctions.Instance.GetRandomPointInNavMesh(player, 2, 5);
         tnt.SetActive(true);
 
     }

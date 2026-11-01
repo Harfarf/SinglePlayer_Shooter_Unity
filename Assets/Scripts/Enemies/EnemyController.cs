@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour, IDamageable
             case EnemyState.Patrol:
                 if (!Nagent.pathPending && (!Nagent.hasPath || Nagent.remainingDistance <= 0.5f))
                 {
-                    Vector3 patrolPos = SceneHandler.Instance.GetRandomPointInNavMesh(transform, 5, 10);
+                    Vector3 patrolPos = GeneralFunctions.Instance.GetRandomPointInNavMesh(transform, 5, 10);
                     Nagent.SetDestination(patrolPos);
                     transform.LookAt(patrolPos);
                 }

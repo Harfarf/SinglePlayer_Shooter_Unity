@@ -1,16 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
-public class SceneHandler : Singleton<SceneHandler>
+public class GeneralFunctions : Singleton<GeneralFunctions>
 {
-    //------ Scenes
-    public void LoadSceneByID(int sceneID)
-    {
-        SceneManager.LoadScene(sceneID);
-    }
-
-
     //------ Navmesh
     public Vector3 GetRandomPointInNavMesh(Transform center, int rangeA, int rangeB)
     {
@@ -22,5 +14,11 @@ public class SceneHandler : Singleton<SceneHandler>
             return hit.position;
 
         return center.position + new Vector3(1f, 0f, 1f); //fallback
+    }
+
+    //------ Scenes
+    public void LoadLoadingScene(string sceneName)
+    {
+        LoadSceneHandler.Instance.LoadLoadingScene(sceneName);
     }
 }
