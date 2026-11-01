@@ -5,14 +5,14 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
 public class ProceduralTerrain : MonoBehaviour
 {
-    private int size = 40;
-    private float scale = 20f;
-    private float heightMultiplier = 2f;
+    private int size = 40; //number of vertices per side of the terrain
+    private float scale = 10f; //scale of the Perlin Noise (Lower Values: more frequent height variation)
+    private float heightMultiplier = 2f; //lower value: terrain is more flat, higher value: taller hills and deeper holes
 
-    [SerializeField, Range(1, 8)] private int octaves = 5;
-    [SerializeField, Range(0f, 1f)] private float persistence = 0.5f;
+    [SerializeField, Range(1, 8)] private int octaves = 5; //number of layers of Perlin Noise (more octaves: more detailed and complex terrain)
+    [SerializeField, Range(0f, 1f)] private float persistence = 0.5f; //how much influence each additional octave has
 
-    private float lacunarity = 2f;
+    private float lacunarity = 2f; //how much the noise frequency increases per octave
     private int seed = 13;
 
     [Header("Terrain Materials")]
@@ -24,7 +24,7 @@ public class ProceduralTerrain : MonoBehaviour
 
 
     private void Start() {
-        seed = Random.Range(1,14);
+        seed = Random.Range(1,50);
         Generate();
     }
 
@@ -41,41 +41,47 @@ public class ProceduralTerrain : MonoBehaviour
     }
 
     float[] GenerateHeights() {
+        //generate random offsets based on the seed
         var rng = new System.Random(seed);
-        var offsets = new Vector2[octaves];
+        Vector2[] offsets = new Vector2[octaves];
 
-        for (int o = 0; o < octaves; o++)
+        for (int i = 0; i < octaves; i++)
         {
-            offsets[o] = new Vector2(
+            offsets[i] = new Vector2(
                 rng.Next(-10000, 10000),
                 rng.Next(-10000, 10000)
             );
         }
 
-        var heights = new float[size * size];
+        //store the height of each terrain vertex
+        float[] heights = new float[size * size];
 
         for (int y = 0; y < size; y++)
         {
             for (int x = 0; x < size; x++)
             {
-                float amplitude = 1;
-                float frequency = 1;
-                float value = 0;
-                float max = 0;
+                float amplitude = 1f;
+                float frequency = 1f;
+                float height = 0f;
+                float maxHeight = 0f;
 
+                //combine multiple Perlin Noise layers.
                 for (int o = 0; o < octaves; o++)
                 {
-                    float sx = x / scale * frequency + offsets[o].x;
-                    float sy = y / scale * frequency + offsets[o].y;
+                    Vector2 sample = new Vector2(
+                        x / scale * frequency,
+                        y / scale * frequency
+                    ) + offsets[o];
 
-                    value += Mathf.PerlinNoise(sx, sy) * amplitude;
-                    max += amplitude;
+                    height += Mathf.PerlinNoise(sample.x, sample.y) * amplitude;
+                    maxHeight += amplitude;
 
                     amplitude *= persistence;
                     frequency *= lacunarity;
                 }
 
-                heights[y * size + x] = value / max;
+                // Normalize height between 0 and 1.
+                heights[y * size + x] = height / maxHeight;
             }
         }
 
@@ -90,32 +96,32 @@ public class ProceduralTerrain : MonoBehaviour
         List<int> grassTriangles = new List<int>();
         List<int> rockTriangles = new List<int>();
 
-        //generate vertices, UVs and height colors
+        //generate vertex and UVs coordinates
         for (int y = 0, i = 0; y < size; y++)
         {
             for (int x = 0; x < size; x++, i++)
             {
-                vertices[i] = new Vector3(
+                vertices[i] = new Vector3( //world 3D pos of the vertex
                     x,
                     heights[i] * heightMultiplier,
                     y
                 );
 
-                uvs[i] = new Vector2(
+                uvs[i] = new Vector2( //which pos of the texture 2D corresponds to this vertex
                     (float)x / (size - 1),
                     (float)y / (size - 1)
                 );
             }
         }
 
-        //generate triangles
+        //generate triangles and assign them to a material
         for (int y = 0; y < size - 1; y++)
         {
             for (int x = 0; x < size - 1; x++)
             {
                 int i = y * size + x;
 
-                float averageHeight = (
+                float averageHeight = ( //average height of the four cell corners
                     heights[i] +
                     heights[i + size] +
                     heights[i + 1] +
@@ -124,15 +130,16 @@ public class ProceduralTerrain : MonoBehaviour
                     heights[i + size + 1]
                 ) / 6f;
 
-                List<int> targetTriangles =
+                List<int> targetTriangles = //material based on height
                     averageHeight >= rockHeightThreshold
                     ? rockTriangles
                     : grassTriangles;
 
+                //1st triangle
                 targetTriangles.Add(i);
                 targetTriangles.Add(i + size);
                 targetTriangles.Add(i + 1);
-
+                //2nd triangle
                 targetTriangles.Add(i + 1);
                 targetTriangles.Add(i + size);
                 targetTriangles.Add(i + size + 1);
