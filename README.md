@@ -71,6 +71,7 @@ Por su parte, `UIController` se suscribe a los eventos del jugador para actualiz
 ## 4. Programación asíncrona
 
 El script `Bullet` utiliza `async/await` junto con `Awaitable.WaitForSecondsAsync` para controlar el tiempo de vida de los proyectiles sin bloquear la ejecución del juego. También emplea `destroyCancellationToken` para cancelar la espera si el objeto es destruido.
+Se utiliza `try-catch` para gestionar la excepción `OperationCanceledException` cuando se cancela la operación asíncrona.
 
 ## 5. ScriptableObjects
 
@@ -94,6 +95,7 @@ El terreno se genera proceduralmente mediante **Perlin Noise**, construyendo una
 - Object Pooling y colecciones `Queue`
 - Eventos y delegados `Action`
 - Corrutinas y `async/await`
+- Gestión de excepciones con try-catch
 - ScriptableObjects
 - Máquinas de estados
 - DOTween
