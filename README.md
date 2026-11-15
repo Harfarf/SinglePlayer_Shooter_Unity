@@ -6,11 +6,12 @@ Experiencia interactiva de tipo *Single Player Shooter* desarrollada en Unity y 
 
 ## 1. Programación orientada a objetos
 
-Se aplican los principios fundamentales:
+Se aplican los cuatro principios fundamentales:
 
 - **Abstracción:** mediante clases, que agrupan datos y comportamientos.
 - **Encapsulación:** a través de modificadores como `private` y `public` para controlar el acceso a variables y métodos de las clases.
-- **Polimorfismo:** mediante interfaces como `IDamageable`, implementada tanto por el jugador como por los enemigos, permitiendo acceder a métodos comunes como SetDamage() independientemente de su implementación específica.
+- **Herencia:** se utiliza mediante clases que heredan de `MonoBehaviour` y `ScriptableObject`, aprovechando las funcionalidades que proporciona Unity.
+- **Polimorfismo:** mediante interfaces como `IDamageable`, implementada tanto por el jugador como por los enemigos. Esto permite utilizar métodos comunes, como `SetDamage()`, sin depender de la clase concreta del objeto.
 
 ## 2. API de Unity y ciclo de vida
 
@@ -26,7 +27,7 @@ La cámara utiliza `LateUpdate()` para seguir al jugador después de actualizar 
 
 ### Singleton y Managers
 
-Se utiliza el patrón Singleton en `DataManager`, `InputManager`, `ObjectPool` y `LoadSceneHandler`, generando una única instancia de estos y facilitando su acceso desde otras partes del proyecto.
+Se utiliza el patrón Singleton en `DataManager`, `InputManager`, `ObjectPool` y `LoadSceneHandler`, garantizando una única instancia de cada sistema y facilitando su acceso desde otras partes del proyecto.
 
 - **DataManager:** se encarga del guardado y la carga de las estadísticas del jugador mediante archivos JSON. Utiliza `JsonUtility` para serializar y deserializar los datos y `System.IO` para escribirlos y leerlos.
 - **InputManager:** centraliza las acciones del New Input System, proporcionando métodos para consultar botones y ejes de movimiento y cámara.
@@ -35,19 +36,19 @@ Se utiliza el patrón Singleton en `DataManager`, `InputManager`, `ObjectPool` y
 
 ### Object Pooling
 
-Sistema para reutilizar objetos en runtime, más específicamente las balas disparadas por el jugador y los enemigos generados, así como las dinamitas y efectos visuales.
+Se implementa una pool para reutilizar objetos en runtime, más específicamente las balas disparadas por el jugador y los enemigos generados, así como las dinamitas y efectos visuales.
 
-El método `CreatePool()` genera un conjunto de objetos a partir de un prefab, los desactiva y los añade a una cola (`Queue<GameObject>`). Además, permite ejecutar acciones opcionales (`Action<GameObject>`) durante su inicialización.
+El método `CreatePool()` genera un conjunto de objetos a partir de un prefab, los desactiva y los añade a una queue (`Queue<GameObject>`). Además, permite ejecutar acciones opcionales (`Action<GameObject>`) durante su inicialización.
 
-Para los efectos visuales se utiliza una corrutina que obtiene un objeto de la queue, lo posiciona, activa y reproduce su `ParticleSystem`. Cuando termina la reproducción, el objeto se desactiva y vuelve a la cola.
+Para los efectos visuales se utiliza una corrutina que obtiene un objeto de la queue, lo posiciona, activa y reproduce su `ParticleSystem`. Cuando termina la reproducción, el objeto se desactiva y vuelve a la queue.
 
-Ej: El sistema de balas utiliza una pool de 20 proyectiles gestionada por `PlayerAttack`. Al disparar, se obtiene una bala disponible, se configura su posición y dirección y se mueve mediante una corrutina que actualiza la velocidad de su `Rigidbody`. Cuando la bala impacta o termina su tiempo de vida, se desactiva y vuelve a la cola.
+**Ejemplo:** el sistema de balas utiliza una pool de 20 proyectiles gestionada por `PlayerAttack`. Al disparar, se obtiene una bala disponible, se configura su posición y dirección y se mueve mediante una corrutina que actualiza la velocidad de su `Rigidbody`. Cuando la bala impacta o termina su tiempo de vida, se desactiva y vuelve a la queue.
 
 ### Gestión y respawn de enemigos
 
 El script `EnemySpawner` gestiona la creación y reutilización de enemigos y dinamitas mediante pools. Al inicio de la partida genera queues para ambos y los posiciona aleatoriamente sobre el NavMesh alrededor del jugador.
 
-Mediante eventos (`Action`s), el spawner recibe una notificación cuando un enemigo muere o es desactivado, lo devuelve a la queue y solicita su reaparición.
+Mediante eventos (`Action`), el spawner recibe una notificación cuando un enemigo muere, lo devuelve a la queue y solicita su reaparición. Las dinamitas también vuelven a su pool cuando se desactivan.
 
 ### Máquina de estados de los enemigos
 
@@ -61,7 +62,7 @@ Finalmente, reproduce un efecto visual y notifica mediante un evento al spawner 
 
 ### Eventos y gestión de datos
 
-Se utilizan eventos (`Action`s) para comunicar cambios entre sistemas, como la muerte de enemigos, la devolución de objetos a sus pools y la actualización de las estadísticas del jugador.
+Se utilizan eventos (`Actions`) para comunicar cambios entre sistemas, como la muerte de enemigos, la devolución de objetos a sus pools y la actualización de las estadísticas del jugador.
 
 El `PlayerController` registra las bajas y muertes del jugador y utiliza `DataManager` para guardar y recuperar estos datos, manteniendo las estadísticas entre partidas.
 
