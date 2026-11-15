@@ -42,11 +42,11 @@ Se utiliza el patrón Singleton en `DataManager`, `InputManager`, `ObjectPool` y
 - **DataManager:** se encarga del guardado y la carga de las estadísticas del jugador mediante archivos JSON. Utiliza `JsonUtility` para serializar y deserializar los datos y `System.IO` para escribirlos y leerlos.
 - **InputManager:** centraliza las acciones del New Input System, proporcionando métodos para consultar botones y ejes de movimiento y cámara.
 - **LoadSceneHandler:** gestiona los cambios de escena mediante corrutinas y carga asíncrona. Utiliza una escena intermedia de carga que se muestra mientras descarga la escena anterior y carga la siguiente.
-- **ObjectPool:** mediante queues y callbacks centraliza la creación y gestión de los pools de objetos y efectos visuales que se reutilizarán durante la partida.
+- **ObjectPool:** mediante queues y callbacks centraliza la creación y gestión de las pools de objetos y efectos visuales que se reutilizarán durante la partida.
 
 ### Object Pooling
 
-Se implementa una pool para reutilizar objetos en runtime, más específicamente las balas disparadas por el jugador y los enemigos generados, así como las dinamitas y efectos visuales.
+Se implementa un sistema de pooling para reutilizar objetos en runtime, más específicamente las balas disparadas por el jugador y los enemigos generados, así como las dinamitas y efectos visuales.
 
 El método `CreatePool()` genera un conjunto de objetos a partir de un prefab, los desactiva y los añade a una queue (`Queue<GameObject>`). Además, permite ejecutar acciones opcionales (`Action<GameObject>`) durante su inicialización.
 
@@ -58,7 +58,7 @@ Para los efectos visuales se utiliza una corrutina que obtiene un objeto de la q
 
 El script `EnemySpawner` gestiona la creación y reutilización de enemigos y dinamitas mediante pools. Al inicio de la partida genera queues para ambos y los posiciona aleatoriamente sobre el NavMesh alrededor del jugador.
 
-Mediante eventos (`Action`), el spawner recibe una notificación cuando un enemigo muere, lo devuelve a la queue y solicita su reaparición. Las dinamitas también vuelven a su pool cuando se desactivan.
+Mediante eventos (`Actions`), el spawner recibe una notificación cuando un enemigo muere, lo devuelve a la queue y solicita su reaparición. Las dinamitas también vuelven a su pool cuando se desactivan.
 
 ### Máquina de estados de los enemigos
 
@@ -66,7 +66,7 @@ El `EnemyController` implementa una máquina de estados con dos comportamientos:
 
 ### Sistema de dinamita
 
-El `DynamiteController` gestiona la cuenta atrás y explosión de las dinamitas. Antes de explotar, utiliza DOTween para animar el color del material y avisar visualmente al jugador. Al finalizar, busca los objetos que implementan `IDamageable` y aplica el efecto de la explosión tanto al jugador como a los enemigos dentro del radio establecido.
+El `DynamiteController` gestiona la cuenta atrás y explosión de las dinamitas. Antes de explotar, utiliza **DOTween** para animar el color del material y avisar visualmente al jugador. Al finalizar, busca los objetos que implementan `IDamageable` y aplica el daño de la explosión tanto al jugador como a los enemigos que se encuentren dentro del radio establecido.
 
 Finalmente, reproduce un efecto visual y notifica mediante un evento al spawner para devolver la dinamita a su pool.
 
