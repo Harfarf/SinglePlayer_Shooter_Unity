@@ -12,7 +12,7 @@ Experiencia interactiva de tipo *Single Player Shooter* desarrollada en Unity y 
 ![TextMeshPro](https://img.shields.io/badge/TextMeshPro-UI-orange)
 
 
-## 1. Programación orientada a objetos
+## 🎯 1. Programación orientada a objetos
 
 Se aplican los cuatro principios fundamentales:
 
@@ -22,7 +22,7 @@ Se aplican los cuatro principios fundamentales:
 - **Polimorfismo:** mediante interfaces como `IDamageable`, implementada tanto por el jugador como por los enemigos. Esto permite utilizar métodos comunes, como `SetDamage()`, sin depender de la clase concreta del objeto.
 
 
-## 2. API de Unity y ciclo de vida
+## ⚙️ 2. API de Unity y ciclo de vida
 
 Se utilizan funciones propias de la API de Unity, como `Awake`, `Start`, `Update` y `LateUpdate`, para gestionar el ciclo de vida de los componentes. También se usan sus sistemas de física y detección, como colisiones, triggers y raycasts, para gestionar las interacciones entre objetos.
 
@@ -33,7 +33,7 @@ El control del jugador utiliza el **New Input System** de Unity, centralizado me
 La cámara utiliza `LateUpdate()` para seguir al jugador después de actualizar su movimiento, manteniendo una posición relativa y permitiendo controlar su rotación.
 
 
-## 3. Patrones de diseño y sistemas de juego
+## 🧩 3. Patrones de diseño y sistemas de juego
 
 ### Singleton y Managers
 
@@ -79,25 +79,25 @@ El `PlayerController` registra las bajas y muertes del jugador y utiliza `DataMa
 Por su parte, `UIController` se suscribe a los eventos del jugador para actualizar los contadores de bajas y muertes mediante TextMeshPro y mostrar la pantalla de derrota cuando el jugador muere. También gestiona la pausa del juego mediante `Time.timeScale`.
 
 
-## 4. Programación asíncrona
+## ⏳ 4. Programación asíncrona
 
 El script `Bullet` utiliza `async/await` junto con `Awaitable.WaitForSecondsAsync` para controlar el tiempo de vida de los proyectiles sin bloquear la ejecución del juego. También emplea `destroyCancellationToken` para cancelar la espera si el objeto es destruido.
 
 Se utiliza `try-catch` para gestionar la excepción `OperationCanceledException` cuando se cancela la operación asíncrona.
 
 
-## 5. ScriptableObjects
+## 📦 5. ScriptableObjects
 
 Se utiliza un `ScriptableObject` llamado `Enemy_SO` para almacenar configuraciones de los enemigos, como su color y salud máxima.
 
 El `EnemyController` dispone de una lista de estas configuraciones y selecciona una aleatoriamente al inicializarse. De esta forma, se pueden crear diferentes variantes de enemigos modificando sus datos desde el Inspector, sin necesidad de crear clases o scripts distintos para cada variante.
 
 
-## 6. Generación procedural
+## 🌍 6. Generación procedural
 
 El terreno se genera proceduralmente mediante **Perlin Noise**, construyendo una malla (*Mesh*) a partir de las alturas calculadas. Se utilizan dos materiales diferentes, asignando hierba o roca según la altura de cada zona del terreno.
 
-## Tecnologías y conceptos
+## 🛠️ Tecnologías y conceptos
 
 - Unity y C#
 - Programación orientada a objetos e interfaces
