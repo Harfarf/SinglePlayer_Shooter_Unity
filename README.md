@@ -4,6 +4,14 @@
 
 Experiencia interactiva de tipo *Single Player Shooter* desarrollada en Unity y C#. El desarrollo se centra en la implementación de mecánicas de juego, la organización del código y el uso de diferentes técnicas de programación con C#.
 
+## Tecnologías utilizadas
+
+![Unity](https://img.shields.io/badge/Unity-Engine-black?logo=unity)
+![C%23](https://img.shields.io/badge/C%23-Language-purple?logo=csharp)
+![DOTween](https://img.shields.io/badge/DOTween-Animation-blue)
+![TextMeshPro](https://img.shields.io/badge/TextMeshPro-UI-orange)
+
+
 ## 1. Programación orientada a objetos
 
 Se aplican los cuatro principios fundamentales:
@@ -12,6 +20,7 @@ Se aplican los cuatro principios fundamentales:
 - **Encapsulación:** a través de modificadores como `private` y `public` para controlar el acceso a variables y métodos de las clases.
 - **Herencia:** se utiliza mediante clases que heredan de `MonoBehaviour` y `ScriptableObject`, aprovechando las funcionalidades que proporciona Unity.
 - **Polimorfismo:** mediante interfaces como `IDamageable`, implementada tanto por el jugador como por los enemigos. Esto permite utilizar métodos comunes, como `SetDamage()`, sin depender de la clase concreta del objeto.
+
 
 ## 2. API de Unity y ciclo de vida
 
@@ -22,6 +31,7 @@ Se utilizan funciones propias de la API de Unity, como `Awake`, `Start`, `Update
 El control del jugador utiliza el **New Input System** de Unity, centralizado mediante `InputManager`. El movimiento se gestiona con `Rigidbody`, mientras que un `Raycast` permite comprobar si el jugador está en contacto con el suelo antes de saltar.
 
 La cámara utiliza `LateUpdate()` para seguir al jugador después de actualizar su movimiento, manteniendo una posición relativa y permitiendo controlar su rotación.
+
 
 ## 3. Patrones de diseño y sistemas de juego
 
@@ -68,17 +78,20 @@ El `PlayerController` registra las bajas y muertes del jugador y utiliza `DataMa
 
 Por su parte, `UIController` se suscribe a los eventos del jugador para actualizar los contadores de bajas y muertes mediante TextMeshPro y mostrar la pantalla de derrota cuando el jugador muere. También gestiona la pausa del juego mediante `Time.timeScale`.
 
+
 ## 4. Programación asíncrona
 
 El script `Bullet` utiliza `async/await` junto con `Awaitable.WaitForSecondsAsync` para controlar el tiempo de vida de los proyectiles sin bloquear la ejecución del juego. También emplea `destroyCancellationToken` para cancelar la espera si el objeto es destruido.
 
 Se utiliza `try-catch` para gestionar la excepción `OperationCanceledException` cuando se cancela la operación asíncrona.
 
+
 ## 5. ScriptableObjects
 
 Se utiliza un `ScriptableObject` llamado `Enemy_SO` para almacenar configuraciones de los enemigos, como su color y salud máxima.
 
 El `EnemyController` dispone de una lista de estas configuraciones y selecciona una aleatoriamente al inicializarse. De esta forma, se pueden crear diferentes variantes de enemigos modificando sus datos desde el Inspector, sin necesidad de crear clases o scripts distintos para cada variante.
+
 
 ## 6. Generación procedural
 
