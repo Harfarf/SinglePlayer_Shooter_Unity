@@ -498,7 +498,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HALLOWEEN SURVIVAL
+  m_text: SHOOTER FOR SINGLEPLAYER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5353d91b95770ca4d83855128e5f46f6, type: 2}
   m_sharedMaterial: {fileID: 238118261157983416, guid: 5353d91b95770ca4d83855128e5f46f6, type: 2}
@@ -966,7 +966,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HALLOWEEN SURVIVAL
+  m_text: SHOOTER FOR SINGLEPLAYER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5353d91b95770ca4d83855128e5f46f6, type: 2}
   m_sharedMaterial: {fileID: 238118261157983416, guid: 5353d91b95770ca4d83855128e5f46f6, type: 2}
